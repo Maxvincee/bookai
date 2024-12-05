@@ -2,6 +2,7 @@ package bookai;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Library {
 	private List<Book> books;
@@ -29,4 +30,26 @@ public class Library {
 
 	}
 
+	public List<Book> searchBookByTitle(String title) {
+		return books.stream()
+			.filter(book -> book.title().toLowerCase().contains(title.toLowerCase()))
+			.collect(Collectors.toList());
+	}
+
+	public List<Book> sortBooksByYearThenAuthor() {
+		return books.stream()
+			.sorted((b1, b2) -> {
+				if (b1.year() != b2.year()) {
+					return b1.year() - b2.year();
+				}
+				return b1.author().compareTo(b2.author());
+			})
+			.collect(Collectors.toList());
+	}
+
+	public List<Book> searchBookByKeyword(String keyword) {
+		return books.stream()
+			.filter(book -> book.title().toLowerCase().contains(keyword.toLowerCase()) || book.author().toLowerCase().contains(keyword.toLowerCase()))
+			.collect(Collectors.toList());
+	}
 }
